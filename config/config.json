@@ -1,0 +1,20 @@
+{
+  "server": {
+    "name": "assimilate-rest",
+    "hostname" : "http://localhost",
+    "version": "0.0.1",
+    "env": "development",
+    "port": 8080
+  },
+  "db": {
+    "host": "localhost",
+    "user": "root",
+    "password": "toor",
+    "database": "assimilate"
+  },
+  "plugins":{
+    "jwt": {
+      "secret": "&@$!changeme!$@&"
+    }
+  }
+}
