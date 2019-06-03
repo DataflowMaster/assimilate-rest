@@ -1,14 +1,6 @@
-
-
-export function getInstitute(){
-    return ()=> {
-
-    }
+export function getInstitute({build,repository,render}){
+    build("/institution",repository("SELECT * FROM institution",render,"get"),"get");
 }
-
-
-
-buildServer("/institution",repository("select * from institution"));
 
 
 

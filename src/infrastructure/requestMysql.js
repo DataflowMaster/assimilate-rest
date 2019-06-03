@@ -1,12 +1,21 @@
 import mysql from "mysql";
 import config from "../../config/config";
-import {renderRequest} from "./renderRequest";
+
 
 const connection = mysql.createConnection(config.db);
-// console.log(connection.query("SELECT * FROM institution"));
-export function callRepository(sql) {
+
+export function requestMysql(sql,render,method) {
     return function (req, res) {
-        console.log(sql);
-        // connection.query(sql, renderRequest(res));
+        switch (method) {
+            case "get":
+                connection.query(sql,[req.params.id], render(res));
+                break;
+            case "post":
+                connection.query(sql,req.body, render(res));
+                break;
+            case "put":
+                connection.query(sql,[req.body.value, req.body.id], render(res))
+                break;
+        }
     };
 }

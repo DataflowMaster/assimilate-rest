@@ -1,66 +1,31 @@
-import restify from 'restify';
-import config from './config/config.json';
-import mysql from "mysql";
-// import {showInstitute} from "./src/domain/getInstitute.js";
-import {callRepository} from "./src/infrastructure/callRepository";
-import {renderRequest} from "./src/infrastructure/renderRequest.js"
-const connection = mysql.createConnection(config.db);
-
-const server = restify.createServer({
-    name    : config.server.name,
-    version : config.server.version,
-    url : config.server.hostname
-});
-
-server.use(restify.plugins.acceptParser(server.acceptable));
-server.use(restify.plugins.queryParser());
-server.use(restify.plugins.bodyParser());
+import {renderer} from "./src/infrastructure/renderer";
+import {requestMysql} from "./src/infrastructure/requestMysql";
+import {getInstitute} from "./src/domain/getInstitute";
+import {buildServer,start} from "./src/infrastructure/buildServer";
+import {getInstituteById} from "./src/domain/getInstituteById";
+import {postInstitute} from "./src/domain/postInstitute";
+import {putInstitute} from "./src/domain/putInstitute";
 
 
-function render(res) {
-    return function (error, results, fields) {
-        if (error) throw error;
-        res.end(JSON.stringify(results));
-    };
+const dependency = {
+    build: (path,rep,method)=> {return buildServer(path,rep,method)},
+    repository: (sql,render,method)=> {return requestMysql(sql,render,method)},
+    render: (res)=> {return renderer(res)}
 }
 
-function repository(sql,render) {
-    return function (req, res) {
-        connection.query(sql, render(res));
-    };
-}
 
-function buildServer(path,rep){
-    return server.get(path,rep);
-}
+getInstitute(dependency);
+getInstituteById(dependency);
+postInstitute(dependency);
+putInstitute(dependency);
 
-function getInstitution(){
-    buildServer("/institution",repository("select * from institution",render));
-}
-
-getInstitution();
+start();
 
 
 
 
 
-// server.get('/institution/:id', function (req, res) {
-//     connection.query('select * from institution where idinstitution = ?', [req.params.id], function (error, results, fields) {
-//         if (error) throw error;
-//         res.end(JSON.stringify(results));
-//     });
-// });
-//
-//
-// //rest api to create a new record into mysql database
-// server.post('/institution', function (req, res) {
-//     var postData  = req.body;
-//     connection.query('INSERT INTO professor SET ?', postData, function (error, results, fields) {
-//         if (error) throw error;
-//         res.end(JSON.stringify(results));
-//     });
-// });
-//
+
 // //rest api to update record into mysql database
 // server.put('/institution', function (req, res) {
 //     connection.query('UPDATE `institution` SET `employee_name`=?,`employee_salary`=?,`employee_age`=? where `id`=?', [req.body.employee_name,req.body.employee_salary, req.body.employee_age, req.body.id], function (error, results, fields) {
@@ -68,23 +33,3 @@ getInstitution();
 //         res.end(JSON.stringify(results));
 //     });
 // });
-
-
-server.listen(config.server.port, function() {
-    console.log('%s listening at %s', server.name, server.url);
-});
-
-
-// let dependency = {
-//     server:()=>{
-//         return server;
-//     },
-//     repository:()=>{
-//         return callRepository()
-//     },
-//     render:()=>{
-//         return renderRequest();
-//     }
-// };
-// let d = dependency.repository();
-// console.log(d);
