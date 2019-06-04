@@ -9,7 +9,7 @@
   "db": {
     "host": "localhost",
     "user": "root",
-    "password": "toor",
+    "password": "Lastminute",
     "database": "assimilate"
   },
   "plugins":{

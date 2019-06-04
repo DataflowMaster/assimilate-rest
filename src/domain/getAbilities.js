@@ -1,9 +1,9 @@
 const properties = {
-    path:"/institution",
-    query:"SELECT * FROM institution",
+    path:"/abilities",
+    query:"SELECT * FROM ability",
     method:"get",
     req: ()=> {}
 };
-export function getInstitute({build,repository,render}){
+export function getAbilities({build,repository,render}){
     build(properties.path,repository(properties.query,properties.req,render),properties.method);
 }
