@@ -9,7 +9,7 @@ import {putInstitute} from "./src/domain/putInstitute";
 
 const dependency = {
     build: (path,rep,method)=> {return buildServer(path,rep,method)},
-    repository: (sql,render,method)=> {return requestMysql(sql,render,method)},
+    repository: (sql,toDo,render)=> {return requestMysql(sql,toDo,render)},
     render: (res)=> {return renderer(res)}
 }
 
