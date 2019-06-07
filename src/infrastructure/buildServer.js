@@ -1,5 +1,7 @@
 import restify from "restify";
 import config from "../../config/config";
+import rjwt from 'restify-jwt-community';
+import jwt from 'jsonwebtoken';
 
 export const server = restify.createServer({
     name    : config.server.name,
@@ -7,6 +9,7 @@ export const server = restify.createServer({
     url : config.server.hostname
 });
 
+server.use(rjwt(config.plugins.jwt).unless({ path: ['/auth']}));
 server.use(restify.plugins.acceptParser(server.acceptable));
 server.use(restify.plugins.queryParser());
 server.use(restify.plugins.bodyParser());
@@ -28,3 +31,10 @@ export function start(){
     });
 }
 
+export function generateToken(data){
+    let token = jwt.sign(data, config.plugins.jwt.secret, {
+        expiresIn: '15m' // token expires in 15 minutes
+    });
+    let { iat, exp } = jwt.decode(token);
+    return { iat, exp, token };
+}

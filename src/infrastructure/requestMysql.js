@@ -9,3 +9,14 @@ export function requestMysql(sql,toDo,render) {
         connection.query(sql,toDo(req), render(res));
     };
 }
+export function authenticateCredentials(username,password) {
+    connection.query(
+        "SELECT * FROM user WHEN username = ? AND password = ?",
+        [username,password])
+        .on('error',(error)=>{
+            return Promise.reject(new Error(error));
+        }).on('result',(result)=>{
+            return Promise.resolve(result);
+        })
+}
+
