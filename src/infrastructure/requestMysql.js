@@ -2,7 +2,7 @@ import mysql from "mysql";
 import config from "../../config/config";
 
 
-const connection = mysql.createConnection(config.db);
+export const connection = mysql.createConnection(config.db);
 
 export function requestMysql(sql,toDo,render) {
     return function (req, res) {

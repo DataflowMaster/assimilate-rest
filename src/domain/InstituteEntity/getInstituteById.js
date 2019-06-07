@@ -6,6 +6,6 @@ const properties = {
         return [req.params.id]
     }
 };
-export function getInstituteById({build,repository,render}){
-    build(properties.path,repository(properties.query,properties.req,render),properties.method);
+export function getInstituteById({server,repository,render}){
+    server(properties.path,repository(properties.query,properties.req,render),properties.method);
 }

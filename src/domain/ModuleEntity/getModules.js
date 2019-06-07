@@ -9,6 +9,6 @@ const properties = {
     method:"get",
     req: ()=> {}
 };
-export function getModules({build,repository,render}){
-    build(properties.path,repository(properties.query,properties.req,render),properties.method);
+export function getModules({server,repository,render}){
+    server(properties.path,repository(properties.query,properties.req,render),properties.method);
 }

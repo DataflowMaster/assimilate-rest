@@ -1,7 +1,7 @@
 import restify from "restify";
 import config from "../../config/config";
 
-const server = restify.createServer({
+export const server = restify.createServer({
     name    : config.server.name,
     version : config.server.version,
     url : config.server.hostname
@@ -27,3 +27,4 @@ export function start(){
         console.log('%s listening at %s', server.name, server.url);
     });
 }
+

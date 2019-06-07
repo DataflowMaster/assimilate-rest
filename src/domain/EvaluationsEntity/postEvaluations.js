@@ -6,6 +6,6 @@ const properties = {
         return [req.body];
     }
 };
-export function postEvaluations({build,repository,render}){
-    build(properties.path,repository(properties.query,properties.req,render),properties.method);
+export function postEvaluations({ server,repository,render}){
+    server(properties.path,repository(properties.query,properties.req,render),properties.method);
 }

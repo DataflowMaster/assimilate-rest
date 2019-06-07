@@ -1,50 +1,28 @@
 import {renderer} from "./src/infrastructure/renderer";
 import {requestMysql} from "./src/infrastructure/requestMysql";
-import {getInstitute} from "./src/domain/getInstitute";
 import {buildServer,start} from "./src/infrastructure/buildServer";
-import {getInstituteById} from "./src/domain/getInstituteById";
-import {postInstitute} from "./src/domain/postInstitute";
-import {putInstitute} from "./src/domain/putInstitute";
-import {getStudents} from "./src/domain/getStudents";
-import {getMethods} from "./src/domain/getMethods";
-import {getModules} from "./src/domain/getModules";
-import {getEvaluations} from "./src/domain/getEvalutaions";
-import {getAbilities} from "./src/domain/getAbilities";
-import {getProfessors} from "./src/domain/getProfessors";
-import {postAbility} from "./src/domain/postAbility";
-import {postEvaluations} from "./src/domain/postEvaluations";
-import {postMethod} from "./src/domain/postMethod";
-import {postModule} from "./src/domain/postModule";
-import {postProfessor} from "./src/domain/postProfessor";
-import {postStudent} from "./src/domain/postStudent";
+import {connection} from "./src/infrastructure/requestMysql";
+import {resourceLoadAbility} from "./src/domain/AbilityEntity/resourceLoadAbility";
+import {resourceLoadInstitute} from "./src/domain/InstituteEntity/resourceLoadInstitute";
+import {resourceLoadMethod} from "./src/domain/MethodEntity/resourceLoadMethod";
+import {resourceLoadModule} from "./src/domain/ModuleEntity/resourceLoadModule";
+import {resourceLoadProffesor} from "./src/domain/ProfessorEntity/resourceLoadProffesor";
+import {resourceLoadStudent} from "./src/domain/StudentEntity/resourceLoadStudent";
 
 
 const dependency = {
-    build: (path,rep,method)=> {return buildServer(path,rep,method)},
+    server: (path, rep, method)=> {return buildServer(path,rep,method)},
     repository: (sql,toDo,render)=> {return requestMysql(sql,toDo,render)},
-    render: (res)=> {return renderer(res)}
+    render: (res)=> { return renderer(res)},
+    connection: ()=> { return connection}
 };
 
-// GET METHODS
-getInstitute(dependency);
-getInstituteById(dependency);
-postInstitute(dependency);
-putInstitute(dependency);
-getStudents(dependency);
-getMethods(dependency);
-getModules(dependency);
-getEvaluations(dependency);
-getAbilities(dependency);
-getProfessors(dependency);
-
-// POSTH METHODS
-
-postAbility(dependency);
-postEvaluations(dependency);
-postMethod(dependency);
-postModule(dependency);
-postProfessor(dependency);
-postStudent(dependency);
+resourceLoadAbility(dependency);
+resourceLoadInstitute(dependency);
+resourceLoadMethod(dependency);
+resourceLoadModule(dependency);
+resourceLoadProffesor(dependency);
+resourceLoadStudent(dependency);
 
 start();
 // //rest api to update record into mysql database

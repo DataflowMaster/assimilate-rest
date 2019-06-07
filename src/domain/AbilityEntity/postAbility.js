@@ -7,6 +7,6 @@ const properties = {
         return [req.body];
     }
 };
-export function postAbility({build,repository,render}){
-    build(properties.path,repository(properties.query,properties.req,render),properties.method);
+export function postAbility({server,repository,render}){
+    server(properties.path,repository(properties.query,properties.req,render),properties.method);
 }

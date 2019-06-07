@@ -6,6 +6,6 @@ const properties = {
         return [req.body.name, req.body.idinstitution];
     }
 };
-export function putInstitute({build,repository,render}){
-    build(properties.path,repository(properties.query,properties.req,render),properties.method);
+export function putInstitute({server,repository,render}){
+    server(properties.path,repository(properties.query,properties.req,render),properties.method);
 }

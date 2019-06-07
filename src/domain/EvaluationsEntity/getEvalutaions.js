@@ -10,6 +10,6 @@ const properties = {
     method:"get",
     req: ()=> {}
 };
-export function getEvaluations({build,repository,render}){
-    build(properties.path,repository(properties.query,properties.req,render),properties.method);
+export function getEvaluations({server,repository,render}){
+    server(properties.path,repository(properties.query,properties.req,render),properties.method);
 }
