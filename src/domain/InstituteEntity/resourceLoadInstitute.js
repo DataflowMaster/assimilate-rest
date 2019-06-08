@@ -8,4 +8,5 @@ export function resourceLoadInstitute(dependency){
     getInstituteById(dependency);
     postInstitute(dependency);
     putInstitute(dependency);
+
 }

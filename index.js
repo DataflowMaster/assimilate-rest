@@ -9,6 +9,7 @@ import {resourceLoadModule} from "./src/domain/ModuleEntity/resourceLoadModule";
 import {resourceLoadProffesor} from "./src/domain/ProfessorEntity/resourceLoadProffesor";
 import {resourceLoadStudent} from "./src/domain/StudentEntity/resourceLoadStudent";
 import {resourceLoadAuthenticate} from "./src/domain/AutthenticateEntity/resourceLoadAuthenticate";
+import {resourceLoadEvaluations} from "./src/domain/EvaluationsEntity/resourceLoadEvaluations";
 
 const dependency = {
     server: (path, rep, method)=> {return buildServer(path,rep,method)},
@@ -16,7 +17,7 @@ const dependency = {
     render: (res)=> { return renderer(res)},
     connection: ()=> { return connection},
     generateToken : (data) => { return generateToken(data) },
-    authCredentials : (user,pass)=>{ return authenticateCredentials(user,pass)},
+    authCredentials : (user,pass,resolve)=>{ return authenticateCredentials(user,pass,resolve)},
     renderWhatever: (res,result)=> {return renderWhatever(res,result)}
 };
 
@@ -27,8 +28,10 @@ resourceLoadMethod(dependency);
 resourceLoadModule(dependency);
 resourceLoadProffesor(dependency);
 resourceLoadStudent(dependency);
+resourceLoadEvaluations(dependency);
 
 start();
+
 // //rest api to update record into mysql database
 // server.put('/institution', function (req, res) {
 //     connection.query('UPDATE `institution` SET `employee_name`=?,`employee_salary`=?,`employee_age`=? where `id`=?', [req.body.employee_name,req.body.employee_salary, req.body.employee_age, req.body.id], function (error, results, fields) {

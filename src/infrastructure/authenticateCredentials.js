@@ -45,3 +45,12 @@ import config from '../../config/config'
 
 
 
+fetch("http://localhost:8080/user", {
+    method: 'GET',
+    withCredentials: true,
+    credentials: 'include',
+    headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHByb2ZmZXNvciI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJpYXQiOjE1NTk5ODc2NTQsImV4cCI6MTU1OTk4ODU1NH0.vuVEv3sdIPFP2qUppZrLl7Er3b84mD_28ZrlavujxS8',
+        'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+        'Content-Type': 'application/json'
+    }})
