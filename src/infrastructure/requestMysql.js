@@ -1,6 +1,6 @@
 import mysql from "mysql";
 import config from "../../config/config";
-
+import md5 from 'md5';
 
 export const connection = mysql.createConnection(config.db);
 
@@ -10,7 +10,7 @@ export function requestMysql(sql,toDo,render) {
     };
 }
 export function authenticateCredentials(username,password,resolve) {
-    connection.query("SELECT * FROM user WHERE username = ? AND password = ?", [username,password],(error,result)=>{
+    connection.query("SELECT * FROM user WHERE username = ? AND password = ?", [username,md5(password)],(error,result)=>{
         if(error) throw error;
 
         if( result.length !== 0 )
@@ -18,4 +18,8 @@ export function authenticateCredentials(username,password,resolve) {
         else
             resolve(false)
     })
+}
+
+export function encrypt(password) {
+    return md5(password);
 }

@@ -7,7 +7,7 @@ const properties = {
     }
 };
 export function postAuth({server,generateToken,authCredentials,renderWhatever}){
-    server(properties.path,(req, res, next) => {
+    server(properties.path,(req, res) => {
         authCredentials(req.body.username,req.body.password, data => {
             if(data){
                 let token = generateToken(data);

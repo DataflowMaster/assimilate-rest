@@ -1,5 +1,5 @@
 import {renderer,renderWhatever} from "./src/infrastructure/renderer";
-import {requestMysql,authenticateCredentials} from "./src/infrastructure/requestMysql";
+import {requestMysql, authenticateCredentials, encrypt} from "./src/infrastructure/requestMysql";
 import {buildServer,start,generateToken} from "./src/infrastructure/buildServer";
 import {connection} from "./src/infrastructure/requestMysql";
 import {resourceLoadAbility} from "./src/domain/AbilityEntity/resourceLoadAbility";
@@ -18,7 +18,8 @@ const dependency = {
     connection: ()=> { return connection},
     generateToken : (data) => { return generateToken(data) },
     authCredentials : (user,pass,resolve)=>{ return authenticateCredentials(user,pass,resolve)},
-    renderWhatever: (res,result)=> {return renderWhatever(res,result)}
+    renderWhatever: (res,result)=> {return renderWhatever(res,result)},
+    encrypt: (password) => {return encrypt(password)}
 };
 
 resourceLoadAuthenticate(dependency);

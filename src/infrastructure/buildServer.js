@@ -17,7 +17,7 @@ export const server = restify.createServer({
 
 server.pre(cors.preflight);
 server.use(cors.actual);
-server.use(rjwt(config.plugins.jwt).unless({ path: ['/auth']}));
+server.use(rjwt(config.plugins.jwt).unless({ path: ['/auth','/newUser']}));
 server.use(restify.plugins.acceptParser(server.acceptable));
 server.use(restify.plugins.queryParser());
 server.use(restify.plugins.bodyParser());

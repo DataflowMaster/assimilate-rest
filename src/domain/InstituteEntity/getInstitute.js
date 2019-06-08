@@ -1,5 +1,5 @@
 const properties = {
-    path:"/institution",
+    path:"/institutions",
     query:"SELECT * FROM institution",
     method:"get",
     req: ()=> {}
@@ -7,3 +7,4 @@ const properties = {
 export function getInstitute({server,repository,render}){
     server(properties.path,repository(properties.query,properties.req,render),properties.method);
 }
+
