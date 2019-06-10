@@ -1,13 +1,39 @@
-const properties = {
-    path:"/evaluations",
-    query:"SELECT * \n" +
-        "FROM evaluations as e, methods as m, student as s, evaluationObjectives as eo \n" +
-        "WHERE e.methods_idmethods = m.idmethods\n" +
-        "AND e.student_idstudent = s.idstudent\n" +
-        "AND eo.evaluations_idevaluations = e.idevaluations",
-    method:"get",
-    req: ()=> {}
+const props = {
+    path:"/evaluations/:id",
+    evaluations: {
+        query:"SELECT *\n" +
+            "FROM evaluations, evaluationObjectives\n" +
+            "where evaluations.idevaluations = evaluationObjectives.evaluations_idevaluations\n" +
+            "and evaluationObjectives.objectives_modules_professor_idprofessor = ?",
+        req: (req)=>{
+            return [req.params.id]
+        }
+    },
+    objectives: {
+        query:"SELECT * \n" +
+            "FROM assimilate.evaluationObjectives\n" +
+            "where evaluations_idevaluations = ?",
+        req: (id)=>{
+            return [id]
+        }
+    },
+    method:"get"
 };
-export function getEvaluations({server,repository,render}){
-    server(properties.path,repository(properties.query,properties.req,render),properties.method);
+export function getEvaluations({server,connection}){
+    server(props.path,function(req, res){
+        connection().query(props.evaluations.query,props.evaluations.req(req), (error,result) => {
+            result.reduce((accumulator,evaluation,index,evaluations) => {
+                evaluation.objectives = [];
+                connection().query(props.objectives.query, props.objectives.req(evaluation.idevaluations)).on('result',res=> {
+                    evaluation.objectives.push(res);
+                }).on('end',()=> {
+                    accumulator.push(evaluation);
+                    if(index === (evaluations.length - 1))
+                        res.end(JSON.stringify(accumulator));
+                });
+                return accumulator;
+            },[])
+        })
+    },props.method)
 }
+
