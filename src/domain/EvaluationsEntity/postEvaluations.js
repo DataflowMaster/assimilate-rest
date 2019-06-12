@@ -29,7 +29,7 @@ const props = {
 
 export function postEvaluations({server,connection}){
     server(props.path,function(req, res){
-        connection().query(props.evaluation.query, props.evaluation.set(res.req)).on('result',(results)=> {
+        connection().query(props.evaluation.query, props.evaluation.set(res.req),(error,results)=>{
             let a = res.req.body.withObjectives.reduce((accumulator,objective,index,objectives) => {
                 connection().query(props.evoObj.query,props.evoObj.set(objective,results.insertId)
                 ).on('error',(error)=> {
@@ -42,6 +42,7 @@ export function postEvaluations({server,connection}){
                 });
                 return accumulator;
             },results);
-        });
+        })
     },props.method);
 }
+

@@ -52,6 +52,7 @@ export function postNewUser({server,connection,encrypt}){
                 res.end(JSON.stringify(e));
             });
         };
+
         if(typeof res.req.body.institute.id === "undefined"){
             connection().query( properties.institute.query, properties.institute.set(req)).on('result',(results)=>{
                 insertProfessor(results.insertId);

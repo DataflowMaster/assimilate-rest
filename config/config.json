@@ -7,7 +7,7 @@
     "port": 8080
   },
   "db": {
-    "host": "localhost",
+    "host": "0.0.0.0",
     "user": "root",
     "password": "Lastminute",
     "database": "assimilate"

@@ -20,6 +20,8 @@ const props = {
 export function getModules({server,connection}){
     server(props.path,function(req, res){
         connection().query(props.modules.query,props.modules.req(req), (error,result) => {
+            if(result.length === 0 )
+                res.end(JSON.stringify({error : "Modules is empty"}))
             result.reduce((accumulator,module,index,modules) => {
                 module.objectives = [];
                 connection().query(props.objectives.query, props.objectives.req(module.idmodules)).on('result',res=> {
@@ -31,6 +33,8 @@ export function getModules({server,connection}){
                 });
                 return accumulator;
             },[])
+
+
         })
     },props.method)
 }
