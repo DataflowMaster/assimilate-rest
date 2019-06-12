@@ -16,8 +16,9 @@ const props = {
     },
     objectives: {
         query:"SELECT * \n" +
-            "FROM assimilate.evaluationObjectives\n" +
-            "where evaluations_idevaluations = ?",
+            "FROM evaluationObjectives as eo, ability as a \n" +
+            "where eo.objectives_ability_idability = a.idability \n" +
+            "and eo.evaluations_idevaluations = ?",
         req: (id)=>{
             return [id]
         }
